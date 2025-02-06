@@ -1,0 +1,87 @@
+// 定义双向链表节点
+class DListNode {
+    int val;
+    DListNode prev, next;
+
+    DListNode(int val) {
+        this.val = val;
+        this.prev = null;
+        this.next = null;
+    }
+}
+
+// 双向链表操作
+class DoublyLinkedList {
+    private DListNode head, tail;
+
+    // 在尾部插入新节点
+    public void append(int val) {
+        DListNode newNode = new DListNode(val);
+        if (head == null) {
+            head = tail = newNode;
+            return;
+        }
+        tail.next = newNode;
+        newNode.prev = tail;
+        tail = newNode;
+    }
+
+    // 删除指定值的节点
+    public void delete(int val) {
+        if (head == null) return;
+
+        DListNode temp = head;
+        while (temp != null && temp.val != val) {
+            temp = temp.next;
+        }
+
+        if (temp == null) return; // 没找到
+
+        if (temp == head) {
+            head = head.next;
+            if (head != null) head.prev = null;
+        } else if (temp == tail) {
+            tail = tail.prev;
+            if (tail != null) tail.next = null;
+        } else {
+            temp.prev.next = temp.next;
+            temp.next.prev = temp.prev;
+        }
+    }
+
+    // 正向遍历
+    public void printForward() {
+        DListNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.val + " ⇄ ");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+
+    // 反向遍历
+    public void printBackward() {
+        DListNode temp = tail;
+        while (temp != null) {
+            System.out.print(temp.val + " ⇄ ");
+            temp = temp.prev;
+        }
+        System.out.println("null");
+    }
+}
+
+// 测试
+public class Test {
+    public static void main(String[] args) {
+        DoublyLinkedList list = new DoublyLinkedList();
+        list.append(1);
+        list.append(2);
+        list.append(3);
+
+        list.printForward();  // 输出: 1 ⇄ 2 ⇄ 3 ⇄ null
+        list.printBackward(); // 输出: 3 ⇄ 2 ⇄ 1 ⇄ null
+
+        list.delete(2);
+        list.printForward();  // 输出: 1 ⇄ 3 ⇄ null
+    }
+}
