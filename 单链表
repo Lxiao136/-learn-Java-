@@ -1,0 +1,72 @@
+// 定义单链表节点
+class ListNode {
+    int val;
+    ListNode next;
+
+    ListNode(int val) {
+        this.val = val;
+        this.next = null;
+    }
+}
+
+// 单链表操作
+class SinglyLinkedList {
+    private ListNode head;
+
+    // 插入到链表尾部
+    public void append(int val) {
+        ListNode newNode = new ListNode(val);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
+        ListNode temp = head;
+        while (temp.next != null) {
+            temp = temp.next;
+        }
+        temp.next = newNode;
+    }
+
+    // 删除指定值的节点
+    public void delete(int val) {
+        if (head == null) return;
+
+        if (head.val == val) {
+            head = head.next;
+            return;
+        }
+
+        ListNode temp = head;
+        while (temp.next != null && temp.next.val != val) {
+            temp = temp.next;
+        }
+
+        if (temp.next != null) {
+            temp.next = temp.next.next;
+        }
+    }
+
+    // 遍历链表
+    public void printList() {
+        ListNode temp = head;
+        while (temp != null) {
+            System.out.print(temp.val + " -> ");
+            temp = temp.next;
+        }
+        System.out.println("null");
+    }
+}
+
+// 测试
+public class Test {
+    public static void main(String[] args) {
+        SinglyLinkedList list = new SinglyLinkedList();
+        list.append(1);
+        list.append(2);
+        list.append(3);
+        list.printList(); // 输出: 1 -> 2 -> 3 -> null
+
+        list.delete(2);
+        list.printList(); // 输出: 1 -> 3 -> null
+    }
+}
