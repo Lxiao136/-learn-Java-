@@ -1,0 +1,78 @@
+	//单链表反转功能代码
+	public ListNode flipNode(ListNode head) {
+		ListNode prev = null;
+		ListNode next = null;
+		while(head != null) {
+			next = head.next;
+			head.next = prev;
+			prev = head;
+			head = next;
+		}
+		return prev;
+	}
+
+
+
+
+//全代码显示
+
+class ListNode{
+	int val;
+	ListNode next;
+	public ListNode(int val) {
+		this.val = val;
+		this.next = null;
+	}
+	
+	//增加节点方法
+	public void addNode(int val) {
+		var newNode = new ListNode(val);
+		var  temp = this;//temp是一个引用变量，没有创建新对象
+		while(temp.next != null) {
+			temp = temp.next;
+		}
+		temp.next = newNode;//temp和this指同一个空间，所以temp加上了this也加上了
+	}
+	
+	//输出链表
+	public void outNode() {
+		var temp = this;
+		while(temp != null) {
+			System.out.print(temp.val);
+			
+			if(temp.next != null) {
+				System.out.print("->");
+			}
+			
+			temp =  temp.next;
+		}
+	}
+	
+	//链表反转
+	public ListNode flipNode(ListNode head) {
+		ListNode prev = null;
+		ListNode next = null;
+		while(head != null) {
+			next = head.next;
+			head.next = prev;
+			prev = head;
+			head = next;
+		}
+		return prev;
+	}
+	
+}
+
+
+public class Test {
+	public static void main(String[] args) {
+		ListNode head = new ListNode(1);
+		head.addNode(2);
+		head.addNode(3);
+		head.outNode();
+		
+		ListNode flip = head.flipNode(head);
+		System.out.println();
+		flip.outNode();
+	}
+}
