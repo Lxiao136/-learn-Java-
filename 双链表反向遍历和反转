@@ -1,0 +1,104 @@
+
+
+//双链表
+class ListNode{
+	int val;
+	ListNode last;
+	ListNode next;
+	
+	//构造方法
+	public  ListNode(int val) {
+		this.val = val;
+		this.last = null;
+		this.next = null;
+	}
+	
+	//增加节点 
+	public void addNode(int val) {
+		var temp = this;
+		ListNode newNode = new ListNode(val);
+		while(temp.next != null) {
+			temp = temp.next;
+		}
+		newNode.last = temp;
+		temp.next = newNode;
+	}
+	
+	//正向遍历输出链表
+	public void outNode() {
+		var temp = this;
+		while(temp != null) {
+			System.out.print(temp.val);
+			if(temp.next != null) {
+				System.out.print("<=>");
+			}
+			temp = temp.next;
+		}
+	}
+	
+	/*链表的反转和反向遍历 
+	 * 反转改变了链表结构
+	 * 反向遍历只是读取数据
+	 * OS：输出的结果似乎相同
+	 */
+	
+	//反向遍历输出链表
+	public void reOutNode() {
+		var temp = this;
+		while(temp.next != null) {
+			temp = temp.next;
+		}
+		while(temp != null) {
+			System.out.print(temp.val);
+			temp = temp.last;
+			if(temp != null) {
+				System.out.print("<=>");
+			}
+		}
+	}
+	
+	//链表的反转
+	public ListNode inverNode(ListNode head) {
+		ListNode prev = null;
+		ListNode lasts = null;
+		ListNode nexts = null;
+		ListNode temp = null;
+		while(head != null) {
+			
+		/*	temp = head.next;
+			nexts = temp;
+			head.next = lasts;
+			head.last = nexts;
+			lasts = head;
+			prev = lasts;
+			head = nexts;
+		*/
+			
+			//优化后
+			nexts = head.next;
+			head.next = lasts;
+			head.last = nexts;
+			prev = head;
+			lasts = prev;
+			head = nexts;
+			
+		}
+		return prev;
+	}
+}
+
+
+
+public class Test {
+	public static void main(String[] args) {
+		ListNode head = new ListNode(1);
+		head.addNode(2);
+		head.addNode(3);
+		head.outNode();
+		System.out.println();
+		head.reOutNode();
+		ListNode newNode = head.inverNode(head);
+		System.out.println();
+		newNode.outNode();
+	}
+}
