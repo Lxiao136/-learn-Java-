@@ -1,0 +1,127 @@
+//源代码
+//单链表
+class ListNode{
+	int val;
+	ListNode next;
+	
+	//构造方法
+	public ListNode(int val) {
+		this.val = val;
+		this.next = null;
+	}
+	
+	//增加节点
+	public void addNode(int val) {
+		var temp = this;
+		var newNode = new ListNode(val);
+		while(temp.next != null) {
+			temp = temp.next;
+		}
+		temp.next = newNode;
+	}
+	
+	//输出链表
+	public void outNode() {
+		var temp = this;
+		while(temp != null) {
+			System.out.print(temp.val);
+			if(temp.next != null) {
+				System.out.print("->");
+			}
+			temp = temp.next;//先输出值和箭头再往后推
+		}
+		System.out.println();
+	}
+	
+	//合并两个有序链表
+	public static ListNode merge(ListNode h1 ,ListNode h2) {
+		var prev = h1.val <= h2.val ? h1 : h2;
+		var temp = prev == h1 ? h2 : h1;
+		var curr = prev.next;//主要是后移在代码中位置靠前。不可写进循环中故后移值赋给curr
+		while(temp != null && curr != null) {
+			if(curr.val <= temp.val) {
+				h1.next = curr;
+				curr = curr.next;
+				h1 = h1.next;
+			}
+			else {
+				h1.next = temp;
+				temp = temp.next;
+				h1 = h1.next;
+			}
+		}
+		if(curr == null) {
+			h1.next = temp;
+		}
+		if(temp == null) {
+			h1.next = curr;
+		}
+		return prev;
+	}
+}
+
+public class Test {
+	public static void main(String[] args) {
+		ListNode head = new ListNode(1);
+		head.addNode(5);
+		head.addNode(7);
+		head.outNode();
+		
+		ListNode other = new ListNode(1);
+		other.addNode(4);
+		other.addNode(9);
+		other.addNode(10);
+		other.outNode();
+		
+		ListNode h = ListNode.merge(head,other);
+		h.outNode();
+	}
+}
+
+
+
+===============！！！！！！！！==============
+//gpt优化
+
+public static ListNode merge(ListNode h1, ListNode h2) {
+    // 处理空链表的情况
+    if (h1 == null) return h2;
+    if (h2 == null) return h1;
+
+    // 选定新链表的头节点
+    ListNode prev, p1, p2;
+    if (h1.val <= h2.val) {
+        prev = h1;
+        p1 = h1.next;
+        p2 = h2;
+    } else {
+        prev = h2;
+        p1 = h1;
+        p2 = h2.next;
+    }
+
+    // tail 指向已合并链表的最后一个节点
+    ListNode tail = prev;
+
+    // 开始合并
+    while (p1 != null && p2 != null) {
+        if (p1.val <= p2.val) {
+            tail.next = p1;
+            p1 = p1.next;
+        } else {
+            tail.next = p2;
+            p2 = p2.next;
+        }
+        tail = tail.next;  // 更新 tail 位置
+    }
+
+    // 连接剩余部分
+    if (p1 != null) {
+        tail.next = p1;
+    }
+    if (p2 != null) {
+        tail.next = p2;
+    }
+
+    return prev; // 返回合并后的链表头
+}
