@@ -38,6 +38,8 @@ class ListNode{
 		var prev = h1.val <= h2.val ? h1 : h2;
 		var temp = prev == h1 ? h2 : h1;
 		var curr = prev.next;//主要是后移在代码中位置靠前。不可写进循环中故后移值赋给curr
+//直接修改h1可能会导致链表结构破坏，可以换其他变量来代替h1
+
 		while(temp != null && curr != null) {
 			if(curr.val <= temp.val) {
 				h1.next = curr;
@@ -49,6 +51,7 @@ class ListNode{
 				temp = temp.next;
 				h1 = h1.next;
 			}
+//h1 = h1.next  可以写在这！
 		}
 		if(curr == null) {
 			h1.next = temp;
