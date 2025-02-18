@@ -1,0 +1,95 @@
+两数之和：给的数字顺序是个，十，百……的顺序
+
+
+
+//单链表
+class ListNode{
+	
+	int val;
+	ListNode next;
+	
+	//构造方法 
+	public ListNode(int val) {
+		this.val = val;
+		this.next = null;
+	}
+	
+	//增加节点
+	public void addNode(int val) {
+		var newNode = new ListNode(val);
+		/*
+		if(this == null) {
+			System.out.print("sorry! It's null");
+		}
+		*/
+		var temp = this;
+		while(temp.next != null) {
+			temp = temp.next;
+		}
+		temp.next = newNode;
+	}
+	
+	//输出节点
+	public void outNode() {
+		var temp = this;
+		while(temp != null) {
+			System.out.print(temp.val);
+			if(temp.next != null) {
+				System.out.print("->");
+			}
+			temp = temp.next;
+		}
+		System.out.println();
+	}
+	
+	//两链表和
+	public static ListNode sumNode(ListNode h1 ,ListNode h2) {
+		int carry = 0;
+		int val = 0;
+		ListNode curr = null,temp = null,prev = null;
+		for(int sum = 0;h1 !=null || h2 != null;
+				h1 = h1==null ? null:h1.next ,
+				h2 = h2==null ? null:h2.next) 
+//h1,h2的三则表达式重要‼️
+//当h==null时还需要将null赋值给他们
+//是因为：null没有next节点，所以需要让他保持为null
+   {
+			
+			sum = (h1 == null ? 0 : h1.val) + (h2 == null ? 0 : h2.val) + carry;
+			val = sum % 10;
+			carry = sum / 10;
+			prev = new ListNode(val);
+			if(temp == null) {
+				curr = prev;
+				temp = prev;
+			}
+			else {
+				temp.next = prev;
+				temp = temp.next;
+			}
+		}
+		if(carry == 1) {
+			temp.next = new ListNode(1);
+		}
+		return curr;
+	}
+	
+}
+
+public class Test {
+	public static void main(String[] args) {
+		ListNode first = new ListNode(4);
+		first.addNode(3);
+		first.addNode(9);
+		first.outNode();
+		
+		ListNode second = new ListNode(7);
+		second.addNode(8);
+		second.addNode(2);
+		second.addNode(1);
+		second.outNode();
+		
+		ListNode sum = ListNode.sumNode(first , second);
+		sum.outNode();
+	}
+}
