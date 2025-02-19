@@ -79,6 +79,10 @@ class ListNode{
 	if(smatail != null) {
 		smatail.next = bighead;
 	}
+//改进注意！当不存在小于n的数时，返回bighead即可
+	if(smahead==null){
+		return bighead;
+	}
 		return smahead;
 	}
 	
