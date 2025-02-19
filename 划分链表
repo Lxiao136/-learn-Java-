@@ -1,0 +1,102 @@
+划分链表：大于n的数放在右边，小于n的数在左边
+
+头节点别动，赋值后指向同一个位置
+
+
+//单链表
+class ListNode{
+	
+	int val;
+	ListNode next;
+	
+	//构造方法 
+	public ListNode(int val) {
+		this.val = val;
+		this.next = null;
+	}
+	
+	//增加节点
+	public void addNode(int val) {
+		var newNode = new ListNode(val);
+		/*
+		if(this == null) {
+			System.out.print("sorry! It's null");
+		}
+		*/
+		var temp = this;
+		while(temp.next != null) {
+			temp = temp.next;
+		}
+		temp.next = newNode;
+	}
+	
+	//输出节点
+	public void outNode() {
+		var temp = this;
+		while(temp != null) {
+			System.out.print(temp.val);
+			if(temp.next != null) {
+				System.out.print("->");
+			}
+			temp = temp.next;
+		}
+		System.out.println();
+	}
+	
+    //划分链表
+	public static ListNode divNode(ListNode h1 ,int val) {
+		ListNode bighead = null ,bigtail = null ,smahead = null ,smatail = null;
+	while(h1 != null) {
+			if(h1.val <= val) {
+				if(smahead == null) {
+					smahead = h1;
+					smatail = h1;
+				}
+				else {
+					//同下疑问！
+				smatail.next = h1;
+				smatail = h1;
+				}
+			}
+			else {
+				if(bighead == null) {
+					bighead = h1;
+					bigtail = h1;
+				}
+！！！！！！！！！！=============！！！！！！！！！
+				else {
+					//为啥不带上这个else就跑不动呢？
+				bigtail.next = h1;
+				bigtail = h1;
+				}
+			}
+			h1 = h1.next;
+		}
+	if(smatail != null)
+		smatail.next = null;
+	if(bigtail != null)
+		bigtail.next = null;
+	if(smatail != null) {
+		smatail.next = bighead;
+	}
+		return smahead;
+	}
+	
+}
+
+public class Test {
+	public static void main(String[] args) {
+		ListNode first = new ListNode(4);
+		first.addNode(3);
+		first.addNode(10);
+		first.addNode(1);
+		first.addNode(6);
+		first.addNode(8);
+		first.outNode();
+		
+		int b = 5;
+		ListNode tryone = ListNode.divNode(first ,b);
+		tryone.outNode();
+		
+	}
+}
